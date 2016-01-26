@@ -41,6 +41,9 @@ import org.springframework.core.io.Resource;
  * an {@link XmlBeanDefinitionReader}.</b> The latter allows for reading from multiple XML
  * resources and is highly configurable in its actual XML parsing behavior.
  *
+ *	<br/><br/>
+ * 继承DefaultListableBeanFactory，通过XmlBeanDefinitionRead来读取Bean配置。
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Chris Beams

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_DOChgMP1EeWLY8kjw0TRng" name="NewModel">
+  <packagedElement xmi:type="uml:Class" xmi:id="_f_0DwMP1EeWLY8kjw0TRng" name="DefaultListableBeanFactory">
+    <generalization xmi:id="_BJxHMMP2EeWLY8kjw0TRng" general="_5urOoMP1EeWLY8kjw0TRng"/>
+    <interfaceRealization xmi:id="_yF97YMP2EeWLY8kjw0TRng" client="_f_0DwMP1EeWLY8kjw0TRng" supplier="_v9Va8MP2EeWLY8kjw0TRng" contract="_v9Va8MP2EeWLY8kjw0TRng"/>
+    <interfaceRealization xmi:id="_MEmmoMQCEeWLY8kjw0TRng" client="_f_0DwMP1EeWLY8kjw0TRng" supplier="_JlhVEMQCEeWLY8kjw0TRng" contract="_JlhVEMQCEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_5urOoMP1EeWLY8kjw0TRng" name="AbstractAutowireCapableBeanFactory">
+    <generalization xmi:id="_GOlr8MP2EeWLY8kjw0TRng" general="_7kWW0MP1EeWLY8kjw0TRng"/>
+    <interfaceRealization xmi:id="_UbYEUMQCEeWLY8kjw0TRng" client="_5urOoMP1EeWLY8kjw0TRng" supplier="_Q661UMQCEeWLY8kjw0TRng" contract="_Q661UMQCEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_7kWW0MP1EeWLY8kjw0TRng" name="AbstractBeanFactory">
+    <generalization xmi:id="_Ll_OcMP2EeWLY8kjw0TRng" general="_H5r70MP2EeWLY8kjw0TRng"/>
+    <interfaceRealization xmi:id="_OXVo0MQDEeWLY8kjw0TRng" client="_7kWW0MP1EeWLY8kjw0TRng" supplier="_vC_cIMQCEeWLY8kjw0TRng" contract="_vC_cIMQCEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_H5r70MP2EeWLY8kjw0TRng" name="FactoryBeanRegistrySupport">
+    <generalization xmi:id="_SDgrgMP2EeWLY8kjw0TRng" general="_PpVvIMP2EeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_PpVvIMP2EeWLY8kjw0TRng" name="DefaultSingletonBeanRegistry">
+    <generalization xmi:id="_aSe4EMP2EeWLY8kjw0TRng" general="_UpSa8MP2EeWLY8kjw0TRng"/>
+    <interfaceRealization xmi:id="_fGuXQMQDEeWLY8kjw0TRng" client="_PpVvIMP2EeWLY8kjw0TRng" supplier="_bsvjsMQDEeWLY8kjw0TRng" contract="_bsvjsMQDEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_UpSa8MP2EeWLY8kjw0TRng" name="SimpleAliasRegistry">
+    <interfaceRealization xmi:id="_tCVCYMP2EeWLY8kjw0TRng" client="_UpSa8MP2EeWLY8kjw0TRng" supplier="_qAPKYMP2EeWLY8kjw0TRng" contract="_qAPKYMP2EeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_qAPKYMP2EeWLY8kjw0TRng" name="AliasRegistry"/>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_v9Va8MP2EeWLY8kjw0TRng" name="BeanDefinitionRegistry">
+    <generalization xmi:id="_0hLZkMP2EeWLY8kjw0TRng" general="_qAPKYMP2EeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_JlhVEMQCEeWLY8kjw0TRng" name="ConfigurableListableBeanFactory">
+    <generalization xmi:id="_UzpaYMQCEeWLY8kjw0TRng" general="_Q661UMQCEeWLY8kjw0TRng"/>
+    <generalization xmi:id="_ZhNVsMQCEeWLY8kjw0TRng" general="_WiTUkMQCEeWLY8kjw0TRng"/>
+    <generalization xmi:id="_QJCP8MQDEeWLY8kjw0TRng" general="_vC_cIMQCEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_Q661UMQCEeWLY8kjw0TRng" name="AutowireCapableBeanFactory">
+    <generalization xmi:id="_smRFkMQDEeWLY8kjw0TRng" general="_jPIXEMQDEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_WiTUkMQCEeWLY8kjw0TRng" name="ListableBeanFactory">
+    <generalization xmi:id="_mgyVEMQDEeWLY8kjw0TRng" general="_jPIXEMQDEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_vC_cIMQCEeWLY8kjw0TRng" name="ConfigurableBeanFactory">
+    <generalization xmi:id="_YRwDgMQDEeWLY8kjw0TRng" general="_Usw50MQDEeWLY8kjw0TRng"/>
+    <generalization xmi:id="_f7ZVcMQDEeWLY8kjw0TRng" general="_bsvjsMQDEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_Usw50MQDEeWLY8kjw0TRng" name="ConfigurableBeanFactory">
+    <generalization xmi:id="_mIOrIMQDEeWLY8kjw0TRng" general="_jPIXEMQDEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_bsvjsMQDEeWLY8kjw0TRng" name="SingletonBeanRegistry"/>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_jPIXEMQDEeWLY8kjw0TRng" name="BeanFactory"/>
+</uml:Model>
