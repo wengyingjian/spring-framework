@@ -32,6 +32,10 @@ import org.springframework.util.StringValueResolver;
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
  * implementations.
  *
+ * 定义对alias的简单增删改等操作
+ * 
+ * 将别名与原名放入到一个并发map中存储，key为别名alias，value为原名name
+ * 
  * @author Juergen Hoeller
  * @since 2.5.2
  */
@@ -41,16 +45,24 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	private final Map<String, String> aliasMap = new ConcurrentHashMap<String, String>(16);
 
 
+	/**
+	 * 给name注册别名<br/>
+	 * 
+	 */
 	@Override
 	public void registerAlias(String name, String alias) {
 		Assert.hasText(name, "'name' must not be empty");
 		Assert.hasText(alias, "'alias' must not be empty");
+		//1.如果name==alias，那么只需将可能存在的之前的别名移除即可。默认就是本身了。
 		if (alias.equals(name)) {
 			this.aliasMap.remove(alias);
 		}
 		else {
+			//2.以alias为key查看是这个别名是否已存在
 			String registeredName = this.aliasMap.get(alias);
+			//2.1如果这个别名已存在
 			if (registeredName != null) {
+				//2.1.1已存在，且与要求相同。则不动
 				if (registeredName.equals(name)) {
 					// An existing alias - no need to re-register
 					return;
@@ -60,7 +72,13 @@ public class SimpleAliasRegistry implements AliasRegistry {
 							name + "': It is already registered for name '" + registeredName + "'.");
 				}
 			}
+			//2.2如果这个别名不存在
+			//检查一下别名循环引用问题，就是下图的情况
+			// b<-alias---
+			// |		 |
+			// ---alias-->a
 			checkForAliasCircle(name, alias);
+			//3.最后将别名放入记录
 			this.aliasMap.put(alias, name);
 		}
 	}
@@ -80,10 +98,16 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	 * @since 4.2.1
 	 */
 	public boolean hasAlias(String name, String alias) {
+		//1.遍历所有的entry
 		for (Map.Entry<String, String> entry : this.aliasMap.entrySet()) {
+			//2.取出value,即原名
+			//寻找是否有期望的name
 			String registeredName = entry.getValue();
 			if (registeredName.equals(name)) {
+				//3.1对上了，就拿该entry的value，即别名
 				String registeredAlias = entry.getKey();
+				//3.2 如果一致。返回true
+				//如果不一致，但是改别名还有别名。则进入更深一层次的递归
 				return (registeredAlias.equals(alias) || hasAlias(registeredAlias, alias));
 			}
 		}
