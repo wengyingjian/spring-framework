@@ -47,4 +47,35 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_bsvjsMQDEeWLY8kjw0TRng" name="SingletonBeanRegistry"/>
   <packagedElement xmi:type="uml:Interface" xmi:id="_jPIXEMQDEeWLY8kjw0TRng" name="BeanFactory"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_3qj8oMQHEeWLY8kjw0TRng" name="AbstractBeanDefinitionReader">
+    <interfaceRealization xmi:id="_IiFd8MQJEeWLY8kjw0TRng" client="_3qj8oMQHEeWLY8kjw0TRng" supplier="_3qm_8MQHEeWLY8kjw0TRng" contract="_3qm_8MQHEeWLY8kjw0TRng"/>
+    <interfaceRealization xmi:id="_SDaqQMQJEeWLY8kjw0TRng" client="_3qj8oMQHEeWLY8kjw0TRng" supplier="_3qqqUMQHEeWLY8kjw0TRng" contract="_3qqqUMQHEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_3qm_8MQHEeWLY8kjw0TRng" name="BeanDefinitionReader"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_3qpcMMQHEeWLY8kjw0TRng" name="XmlBeanDefinitionReader">
+    <generalization xmi:id="_3qpcMcQHEeWLY8kjw0TRng" general="_3qj8oMQHEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_3qqqUMQHEeWLY8kjw0TRng" name="EnvironmentCapable"/>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_X4YSgMQJEeWLY8kjw0TRng" name="Resource">
+    <generalization xmi:id="_g0yz4MQJEeWLY8kjw0TRng" general="_a1b5gMQJEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_a1b5gMQJEeWLY8kjw0TRng" name="InputStreamSource"/>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_nIiC0MQJEeWLY8kjw0TRng" name="ContextResource">
+    <generalization xmi:id="_NIt1YMQKEeWLY8kjw0TRng" general="_X4YSgMQJEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_x3nbsMQJEeWLY8kjw0TRng" name="AbstractResource">
+    <interfaceRealization xmi:id="_NzkJMMQKEeWLY8kjw0TRng" client="_x3nbsMQJEeWLY8kjw0TRng" supplier="_X4YSgMQJEeWLY8kjw0TRng" contract="_X4YSgMQJEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_4cGcYMQJEeWLY8kjw0TRng" name="AbstractFileResolvingResource">
+    <generalization xmi:id="_OlANMMQKEeWLY8kjw0TRng" general="_x3nbsMQJEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="__-pn0MQJEeWLY8kjw0TRng" name="FileSystemResource">
+    <generalization xmi:id="_OQIJYMQKEeWLY8kjw0TRng" general="_x3nbsMQJEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_B2hvcMQKEeWLY8kjw0TRng" name="DescriptiveResource">
+    <generalization xmi:id="_PJk54MQKEeWLY8kjw0TRng" general="_x3nbsMQJEeWLY8kjw0TRng"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_GrNmcMQKEeWLY8kjw0TRng" name="ByteArrayResource">
+    <generalization xmi:id="_PhWgsMQKEeWLY8kjw0TRng" general="_x3nbsMQJEeWLY8kjw0TRng"/>
+  </packagedElement>
 </uml:Model>
