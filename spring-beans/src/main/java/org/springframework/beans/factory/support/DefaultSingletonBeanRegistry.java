@@ -63,6 +63,10 @@ import org.springframework.util.StringUtils;
  * (which inherit from it). Can alternatively also be used as a nested
  * helper to delegate to.
  *
+ * 主要是对
+ * @see org.springframework.beans.factory.config.SingletonBeanRegistry
+ * 的实现
+ * 
  * @author Juergen Hoeller
  * @since 2.0
  * @see #registerSingleton
@@ -82,19 +86,27 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	/** Logger available to subclasses */
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	/** Cache of singleton objects: bean name --> bean instance */
+	/** Cache of singleton objects: bean name --> bean instance 
+	 *  用来存放beanName-beanObject的map
+	 * */
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<String, Object>(256);
 
-	/** Cache of singleton factories: bean name --> ObjectFactory */
+	/** Cache of singleton factories: bean name --> ObjectFactory 
+	 *  
+	 * */
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<String, ObjectFactory<?>>(16);
 
 	/** Cache of early singleton objects: bean name --> bean instance */
 	private final Map<String, Object> earlySingletonObjects = new HashMap<String, Object>(16);
 
-	/** Set of registered singletons, containing the bean names in registration order */
+	/** Set of registered singletons, containing the bean names in registration order 
+	 *  已注册bean的beanName set记录
+	 * */
 	private final Set<String> registeredSingletons = new LinkedHashSet<String>(256);
 
-	/** Names of beans that are currently in creation */
+	/** Names of beans that are currently in creation 
+	 *  正在创建中的bean的beanName集合
+	 * */
 	private final Set<String> singletonsCurrentlyInCreation =
 			Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(16));
 
@@ -126,6 +138,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		Assert.notNull(beanName, "'beanName' must not be null");
 		synchronized (this.singletonObjects) {
 			Object oldObject = this.singletonObjects.get(beanName);
+			//如果已有对应的beanName的bean注册，则抛异常
 			if (oldObject != null) {
 				throw new IllegalStateException("Could not register object [" + singletonObject +
 						"] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
@@ -183,12 +196,17 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		Object singletonObject = this.singletonObjects.get(beanName);
+		//如果没有找到bean，但是发现它现在正在生成中
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			synchronized (this.singletonObjects) {
+				//那就从earlySingletonObjects中拿。
 				singletonObject = this.earlySingletonObjects.get(beanName);
+				//如果earlySingletonObjects中还是没有拿到。
+				//再从singletonFactories中拿，前提是allowEarlyReference＝true
 				if (singletonObject == null && allowEarlyReference) {
 					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 					if (singletonFactory != null) {
+						//但是拿到了以后要将beanName从singletonFactories移至earlySingletonObjects
 						singletonObject = singletonFactory.getObject();
 						this.earlySingletonObjects.put(beanName, singletonObject);
 						this.singletonFactories.remove(beanName);

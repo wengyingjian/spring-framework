@@ -24,6 +24,7 @@ package org.springframework.beans.factory.config;
  *
  * <p>The {@link ConfigurableBeanFactory} interface extends this interface.
  *
+ * 定义对单例的注册及获取
  * @author Juergen Hoeller
  * @since 2.0
  * @see ConfigurableBeanFactory

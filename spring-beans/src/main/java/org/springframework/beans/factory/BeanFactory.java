@@ -86,6 +86,8 @@ import org.springframework.core.ResolvableType;
  * 1. DisposableBean's {@code destroy}<br>
  * 2. a custom destroy-method definition
  *
+ * 对bean的获取操作及一些信息获取工作
+ * 
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Chris Beams
