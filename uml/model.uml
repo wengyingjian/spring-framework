@@ -78,4 +78,17 @@
   <packagedElement xmi:type="uml:Class" xmi:id="_GrNmcMQKEeWLY8kjw0TRng" name="ByteArrayResource">
     <generalization xmi:id="_PhWgsMQKEeWLY8kjw0TRng" general="_x3nbsMQJEeWLY8kjw0TRng"/>
   </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_OceDYMSmEeWLgo4de5WNqQ" name="RootBeanDefinition">
+    <generalization xmi:id="_du_LMMSmEeWLgo4de5WNqQ" general="_XYWZQMSmEeWLgo4de5WNqQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_QYGCkMSmEeWLgo4de5WNqQ" name="GerericBeanDefinition">
+    <generalization xmi:id="_dRev0MSmEeWLgo4de5WNqQ" general="_XYWZQMSmEeWLgo4de5WNqQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_UR3wgMSmEeWLgo4de5WNqQ" name="ChildBeanDefintion">
+    <generalization xmi:id="_eV1IwMSmEeWLgo4de5WNqQ" general="_XYWZQMSmEeWLgo4de5WNqQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_XYWZQMSmEeWLgo4de5WNqQ" name="AbstractBeanDefinition">
+    <interfaceRealization xmi:id="_e-SP4MSmEeWLgo4de5WNqQ" client="_XYWZQMSmEeWLgo4de5WNqQ" supplier="_Z0Fb4MSmEeWLgo4de5WNqQ" contract="_Z0Fb4MSmEeWLgo4de5WNqQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_Z0Fb4MSmEeWLgo4de5WNqQ" name="BeanDefintion"/>
 </uml:Model>
