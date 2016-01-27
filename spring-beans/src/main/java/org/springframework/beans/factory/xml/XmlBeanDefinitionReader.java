@@ -301,6 +301,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	@Override
 	public int loadBeanDefinitions(Resource resource) throws BeanDefinitionStoreException {
+		//TODO
 		return loadBeanDefinitions(new EncodedResource(resource));
 	}
 
@@ -335,7 +336,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 				if (encodedResource.getEncoding() != null) {
 					inputSource.setEncoding(encodedResource.getEncoding());
 				}
-				//读取实现方法
+				//读取实现方法//TODO
 				return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
 			}
 			finally {
@@ -391,9 +392,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource)
 			throws BeanDefinitionStoreException {
 		try {
-			//加载XML文件，并得到对应的Document(获取对XMl文件的验证模式)
+			//加载XML文件，并得到对应的Document(获取对XMl文件的验证模式)//TODO
 			Document doc = doLoadDocument(inputSource, resource);
-			//根据返回Document注册Bean信息
+			//根据返回Document注册Bean信息//TODO
 			return registerBeanDefinitions(doc, resource);
 		}
 		catch (BeanDefinitionStoreException ex) {
@@ -530,7 +531,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		//在实例化BeanDefinitionReader时候会将BeanDefinitionRegistry传入，默认使用继承自DefaultListableBeanFactory的子类
 		int countBefore = getRegistry().getBeanDefinitionCount();
 		//加载及注册bean－－>DefaultBeanDefinitionDocumentReader.registerBeanDefinitions()
-		//主要工作：提取root，以便再次将root作为参数继续BeanDefinition的注册
+		//主要工作：提取root，以便再次将root作为参数继续BeanDefinition的注册//TODO
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
 		//记录本次加载的BeanDefinition个数
 		return getRegistry().getBeanDefinitionCount() - countBefore;

@@ -426,6 +426,7 @@ public class BeanDefinitionParserDelegate {
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
 	 */
 	public BeanDefinitionHolder parseBeanDefinitionElement(Element ele) {
+		//TODO
 		return parseBeanDefinitionElement(ele, null);
 	}
 
@@ -435,16 +436,20 @@ public class BeanDefinitionParserDelegate {
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
 	 */
 	public BeanDefinitionHolder parseBeanDefinitionElement(Element ele, BeanDefinition containingBean) {
+		//1.提取id以及name属性
+		//解析id属性
 		String id = ele.getAttribute(ID_ATTRIBUTE);
+		//解析name属性
 		String nameAttr = ele.getAttribute(NAME_ATTRIBUTE);
 
+		//分割name属性
 		List<String> aliases = new ArrayList<String>();
 		if (StringUtils.hasLength(nameAttr)) {
 			String[] nameArr = StringUtils.tokenizeToStringArray(nameAttr, MULTI_VALUE_ATTRIBUTE_DELIMITERS);
 			aliases.addAll(Arrays.asList(nameArr));
 		}
 
-		String beanName = id;
+		String beanName = id;//beanName(id)为空时，如果有别名，则使用别名
 		if (!StringUtils.hasText(beanName) && !aliases.isEmpty()) {
 			beanName = aliases.remove(0);
 			if (logger.isDebugEnabled()) {
@@ -454,13 +459,17 @@ public class BeanDefinitionParserDelegate {
 		}
 
 		if (containingBean == null) {
+			//检查this.usedNames是否有beanName了，并且将自己的beanName以及alias加入的this.usedNames记录中
 			checkNameUniqueness(beanName, aliases, ele);
 		}
-
+//2.进一步解析其他的属性并统一封装至AbstractBeanDefinition中
+		//TODO:into
 		AbstractBeanDefinition beanDefinition = parseBeanDefinitionElement(ele, beanName, containingBean);
 		if (beanDefinition != null) {
 			if (!StringUtils.hasText(beanName)) {
 				try {
+					//3.如果检测到bean没有指定beanName，那么使用默认规则为此Bean生成beanName
+					//如果不存在beanName那么根据Spring中提供的命名规则为当前bean生成对应的beanName
 					if (containingBean != null) {
 						beanName = BeanDefinitionReaderUtils.generateBeanName(
 								beanDefinition, this.readerContext.getRegistry(), true);
@@ -488,6 +497,7 @@ public class BeanDefinitionParserDelegate {
 				}
 			}
 			String[] aliasesArray = StringUtils.toStringArray(aliases);
+			//4.将获取到的信息封装到BeanDefinitionHolder中
 			return new BeanDefinitionHolder(beanDefinition, beanName, aliasesArray);
 		}
 
@@ -525,26 +535,41 @@ public class BeanDefinitionParserDelegate {
 		this.parseState.push(new BeanEntry(beanName));
 
 		String className = null;
+		//解析class属性
 		if (ele.hasAttribute(CLASS_ATTRIBUTE)) {
 			className = ele.getAttribute(CLASS_ATTRIBUTE).trim();
 		}
 
 		try {
 			String parent = null;
+			//解析parent属性
 			if (ele.hasAttribute(PARENT_ATTRIBUTE)) {
 				parent = ele.getAttribute(PARENT_ATTRIBUTE);
 			}
+			//创建用于承载属性的AbstractBeanDefinition类型的GenericBeanDefinition 
+			//＝new GenericBeanDefinition () --> with parentName,class//TODO-->createBeanDefinition
 			AbstractBeanDefinition bd = createBeanDefinition(className, parent);
 
+			//硬编码解析默认bean的各种属性 //TODO
 			parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
+			//提取description
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
+			//解析元数据://TODO
+			//<bean id="myTestBean" class="aa.myTestBean">
+			//  <meta key="testStr" value="aaa"/>
+			//</bean>
 			parseMetaElements(ele, bd);
+			//解析lookup-method属性//TODO
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
+			//解析replaced-method属性//TODO
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
 
+			//解析构造函数参数//TODO
 			parseConstructorArgElements(ele, bd);
+			//解析property子元素//TODO
 			parsePropertyElements(ele, bd);
+			//解析qualifier子元素//TODO
 			parseQualifierElements(ele, bd);
 
 			bd.setResource(this.readerContext.getResource());
@@ -578,38 +603,49 @@ public class BeanDefinitionParserDelegate {
 	public AbstractBeanDefinition parseBeanDefinitionAttributes(Element ele, String beanName,
 			BeanDefinition containingBean, AbstractBeanDefinition bd) {
 
+		//"singleton"（已取消，故报错）
 		if (ele.hasAttribute(SINGLETON_ATTRIBUTE)) {
 			error("Old 1.x 'singleton' attribute in use - upgrade to 'scope' declaration", ele);
 		}
+		//"scope"
 		else if (ele.hasAttribute(SCOPE_ATTRIBUTE)) {
 			bd.setScope(ele.getAttribute(SCOPE_ATTRIBUTE));
 		}
+		//在嵌入beanDefinition情况下且没有单独指定scope属性则使用父类默认的属性
 		else if (containingBean != null) {
 			// Take default from containing bean in case of an inner bean definition.
 			bd.setScope(containingBean.getScope());
 		}
-
+		//"abstract" true-false?
 		if (ele.hasAttribute(ABSTRACT_ATTRIBUTE)) {
 			bd.setAbstract(TRUE_VALUE.equals(ele.getAttribute(ABSTRACT_ATTRIBUTE)));
 		}
-
+		//for - "lazy-init"
 		String lazyInit = ele.getAttribute(LAZY_INIT_ATTRIBUTE);
+			//lazy-init==default
 		if (DEFAULT_VALUE.equals(lazyInit)) {
 			lazyInit = this.defaults.getLazyInit();
-		}
+		} 
 		bd.setLazyInit(TRUE_VALUE.equals(lazyInit));
 
+		//"autowire"
 		String autowire = ele.getAttribute(AUTOWIRE_ATTRIBUTE);
+		//TODO getAutowireMode --> autowire
+		// if "default/byName/byType/constructor/autodelect":
+		// then  0/1/2/3/4/
 		bd.setAutowireMode(getAutowireMode(autowire));
 
+		//"dependency-check"
 		String dependencyCheck = ele.getAttribute(DEPENDENCY_CHECK_ATTRIBUTE);
+			// if none/object/simple/all
+			//then 0/1/2/3/
 		bd.setDependencyCheck(getDependencyCheck(dependencyCheck));
-
+		//"depends-on"
 		if (ele.hasAttribute(DEPENDS_ON_ATTRIBUTE)) {
 			String dependsOn = ele.getAttribute(DEPENDS_ON_ATTRIBUTE);
 			bd.setDependsOn(StringUtils.tokenizeToStringArray(dependsOn, MULTI_VALUE_ATTRIBUTE_DELIMITERS));
 		}
-
+		//"autowire-candidate"
 		String autowireCandidate = ele.getAttribute(AUTOWIRE_CANDIDATE_ATTRIBUTE);
 		if ("".equals(autowireCandidate) || DEFAULT_VALUE.equals(autowireCandidate)) {
 			String candidatePattern = this.defaults.getAutowireCandidates();
@@ -625,7 +661,7 @@ public class BeanDefinitionParserDelegate {
 		if (ele.hasAttribute(PRIMARY_ATTRIBUTE)) {
 			bd.setPrimary(TRUE_VALUE.equals(ele.getAttribute(PRIMARY_ATTRIBUTE)));
 		}
-
+		//"init-method"
 		if (ele.hasAttribute(INIT_METHOD_ATTRIBUTE)) {
 			String initMethodName = ele.getAttribute(INIT_METHOD_ATTRIBUTE);
 			if (!"".equals(initMethodName)) {
@@ -638,7 +674,7 @@ public class BeanDefinitionParserDelegate {
 				bd.setEnforceInitMethod(false);
 			}
 		}
-
+		//"destory-method"
 		if (ele.hasAttribute(DESTROY_METHOD_ATTRIBUTE)) {
 			String destroyMethodName = ele.getAttribute(DESTROY_METHOD_ATTRIBUTE);
 			bd.setDestroyMethodName(destroyMethodName);
@@ -649,10 +685,11 @@ public class BeanDefinitionParserDelegate {
 				bd.setEnforceDestroyMethod(false);
 			}
 		}
-
+		//"factory-method"
 		if (ele.hasAttribute(FACTORY_METHOD_ATTRIBUTE)) {
 			bd.setFactoryMethodName(ele.getAttribute(FACTORY_METHOD_ATTRIBUTE));
 		}
+		//"factory-bean"
 		if (ele.hasAttribute(FACTORY_BEAN_ATTRIBUTE)) {
 			bd.setFactoryBeanName(ele.getAttribute(FACTORY_BEAN_ATTRIBUTE));
 		}
@@ -669,7 +706,7 @@ public class BeanDefinitionParserDelegate {
 	 */
 	protected AbstractBeanDefinition createBeanDefinition(String className, String parentName)
 			throws ClassNotFoundException {
-
+		//＝new GenericBeanDefinition () --> with parentName,class
 		return BeanDefinitionReaderUtils.createBeanDefinition(
 				parentName, className, this.readerContext.getBeanClassLoader());
 	}
@@ -692,19 +729,24 @@ public class BeanDefinitionParserDelegate {
 	@SuppressWarnings("deprecation")
 	public int getAutowireMode(String attValue) {
 		String att = attValue;
+		//default --> 0
 		if (DEFAULT_VALUE.equals(att)) {
 			att = this.defaults.getAutowire();
 		}
 		int autowire = AbstractBeanDefinition.AUTOWIRE_NO;
+		//byName --> 1
 		if (AUTOWIRE_BY_NAME_VALUE.equals(att)) {
 			autowire = AbstractBeanDefinition.AUTOWIRE_BY_NAME;
 		}
+		//byType --> 2
 		else if (AUTOWIRE_BY_TYPE_VALUE.equals(att)) {
 			autowire = AbstractBeanDefinition.AUTOWIRE_BY_TYPE;
 		}
+		//constructor --> 3
 		else if (AUTOWIRE_CONSTRUCTOR_VALUE.equals(att)) {
 			autowire = AbstractBeanDefinition.AUTOWIRE_CONSTRUCTOR;
 		}
+		//autodetect --> 4
 		else if (AUTOWIRE_AUTODETECT_VALUE.equals(att)) {
 			autowire = AbstractBeanDefinition.AUTOWIRE_AUTODETECT;
 		}
@@ -716,17 +758,17 @@ public class BeanDefinitionParserDelegate {
 		String att = attValue;
 		if (DEFAULT_VALUE.equals(att)) {
 			att = this.defaults.getDependencyCheck();
-		}
+		}//all-->3
 		if (DEPENDENCY_CHECK_ALL_ATTRIBUTE_VALUE.equals(att)) {
 			return AbstractBeanDefinition.DEPENDENCY_CHECK_ALL;
-		}
+		}//objects-->1
 		else if (DEPENDENCY_CHECK_OBJECTS_ATTRIBUTE_VALUE.equals(att)) {
 			return AbstractBeanDefinition.DEPENDENCY_CHECK_OBJECTS;
-		}
+		}//simple-->2
 		else if (DEPENDENCY_CHECK_SIMPLE_ATTRIBUTE_VALUE.equals(att)) {
 			return AbstractBeanDefinition.DEPENDENCY_CHECK_SIMPLE;
 		}
-		else {
+		else { //none 0 
 			return AbstractBeanDefinition.DEPENDENCY_CHECK_NONE;
 		}
 	}
