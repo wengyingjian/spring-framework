@@ -599,7 +599,17 @@ public class BeanDefinitionParserDelegate {
 			//
 			//TODO
 			parsePropertyElements(ele, bd);
-			//解析qualifier子元素//TODO
+			//解析qualifier子元素：
+				//对于qualifier元素的获取，我们接触更多的是注解的形式，
+				//在使用Spring框架中进行自动注入时，Spring容器中匹配的候选bean数目必须有且仅有一个。
+				//当找不到一个匹配的Bean时，Spring容器将抛出BeanCreationException异常，并指出必须至少一个匹配的bean。
+				//Spring允许我们通过Qualifier指定注入Bean的名称，这样歧义就消除了，而对于配置方式使用如下：
+				//
+				//<bean id="myTestBean" class="bean.MyTestBean" >
+				// <qualifier type="org.springframework.beans.factory.annotation.Qualifier" value="qf"/>
+				//</bean>
+			//解析过程与之前的大同小异
+			//TODO
 			parseQualifierElements(ele, bd);
 
 			bd.setResource(this.readerContext.getResource());
