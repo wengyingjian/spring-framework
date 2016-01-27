@@ -555,12 +555,18 @@ public class BeanDefinitionParserDelegate {
 			//提取description
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
-			//解析元数据://TODO
+			//3.1.3.解析子元素meta://TODO
 			//<bean id="myTestBean" class="aa.myTestBean">
 			//  <meta key="testStr" value="aaa"/>
 			//</bean>
 			parseMetaElements(ele, bd);
-			//解析lookup-method属性//TODO
+			//3.1.4.解析子元素lookup-method//
+			//@see com.wengyingjian.springframework.test.loopup
+			//
+			//<bean id="myTestBean" class="aa.myTestBean">
+			//	<lookup-method name="getBean" bean="teacher"/>
+			//</bean>
+			//<bean id = "teacher" class="aa.Teacher"/>TODO -- > 
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
 			//解析replaced-method属性//TODO
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
@@ -823,9 +829,12 @@ public class BeanDefinitionParserDelegate {
 		NodeList nl = beanEle.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node node = nl.item(i);
+			//仅当在Spring默认bean的子元素下且为"loopup-method"是有效
 			if (isCandidateElement(node) && nodeNameEquals(node, LOOKUP_METHOD_ELEMENT)) {
 				Element ele = (Element) node;
+				//获取要修饰的方法
 				String methodName = ele.getAttribute(NAME_ATTRIBUTE);
+				//获取要返回的bean
 				String beanRef = ele.getAttribute(BEAN_ELEMENT);
 				LookupOverride override = new LookupOverride(methodName, beanRef);
 				override.setSource(extractSource(ele));

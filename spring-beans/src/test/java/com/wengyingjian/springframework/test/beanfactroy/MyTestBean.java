@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework;
+package com.wengyingjian.springframework.test.beanfactroy;
 
 /**
  * 

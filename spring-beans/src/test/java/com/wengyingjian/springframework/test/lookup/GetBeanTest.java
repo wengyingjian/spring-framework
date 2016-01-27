@@ -14,25 +14,24 @@
  * limitations under the License.
  */
 
-package org.springframework;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
+package com.wengyingjian.springframework.test.lookup;
 
 /**
  * 
  * @author wyj
  * @since 4.2.1
  */
-public class BeanFactoryTest {
+public abstract class GetBeanTest extends User {
 
-	@Test
-	public void testSimpleLoad() {
-		BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("beanFactoryTest.xml"));
-		MyTestBean myTestBean = beanFactory.getBean(MyTestBean.class);
-		Assert.assertEquals("testStr", myTestBean.getTestStr());
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.wengyingjian.springframework.test.lookup.User#show()
+	 */
+	@Override
+	public void show() {
+		getBean().show();
 	}
+
+	public abstract User getBean();
 }
