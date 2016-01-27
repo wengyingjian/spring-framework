@@ -1907,6 +1907,78 @@
             <styles xmi:type="notation:ShapeStyle" xmi:id="_Z1kpocSmEeWLgo4de5WNqQ" fontName=".SF NS Text" bold="true"/>
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Z1kposSmEeWLgo4de5WNqQ" x="336" y="492" width="115" height="8"/>
           </children>
+          <children xmi:type="notation:Shape" xmi:id="_3myPoMSmEeWLgo4de5WNqQ" type="Note" fontName=".SF NS Text" description="BeanDefiniton是配置文件&lt;bean>元素标签在容器中的内部表示形式。&lt;bean>:class/scope/lazy-init；BeanDefinition:beanClass/scope/lazyInit" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_3m3IIMSmEeWLgo4de5WNqQ" type="DiagramName">
+              <element xsi:nil="true"/>
+            </children>
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_3m3vMMSmEeWLgo4de5WNqQ" type="Description">
+              <element xsi:nil="true"/>
+            </children>
+            <styles xmi:type="notation:TextStyle" xmi:id="_3myPocSmEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_3myPosSmEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3myPo8SmEeWLgo4de5WNqQ" x="312" y="568" width="313" height="77"/>
+          </children>
+          <children xmi:type="notation:Shape" xmi:id="_bwoysMSnEeWLgo4de5WNqQ" type="Note" fontName=".SF NS Text" description="最常用的实现类" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_bwoytMSnEeWLgo4de5WNqQ" type="DiagramName">
+              <element xsi:nil="true"/>
+            </children>
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_bwoytcSnEeWLgo4de5WNqQ" type="Description">
+              <element xsi:nil="true"/>
+            </children>
+            <styles xmi:type="notation:TextStyle" xmi:id="_bwoyscSnEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_bwoyssSnEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bwoys8SnEeWLgo4de5WNqQ" x="28" y="80" width="89"/>
+          </children>
+          <children xmi:type="notation:Shape" xmi:id="_gTFDIMSnEeWLgo4de5WNqQ" type="Note" fontName=".SF NS Text" description="自2.5版本以后新加入的bean文件配置属性定义类，是一站式服务器类" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_gTFqMMSnEeWLgo4de5WNqQ" type="DiagramName">
+              <element xsi:nil="true"/>
+            </children>
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_gTFqMcSnEeWLgo4de5WNqQ" type="Description">
+              <element xsi:nil="true"/>
+            </children>
+            <styles xmi:type="notation:TextStyle" xmi:id="_gTFDIcSnEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_gTFDIsSnEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gTFDI8SnEeWLgo4de5WNqQ" x="96" y="4"/>
+          </children>
+          <children xmi:type="notation:Shape" xmi:id="_u31tEMSnEeWLgo4de5WNqQ" type="Note" fontName=".SF NS Text" description="在配置文件中可以定义父&lt;bean>和子&lt;bean>。父&lt;bean>用RootBeanDefinition表示，子&lt;bean>用ChildBeanDefinition表示，没有父&lt;bean>的&lt;bean> 就用RootBeanDefinition表示" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_u32UIMSnEeWLgo4de5WNqQ" type="DiagramName">
+              <element xsi:nil="true"/>
+            </children>
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_u32UIcSnEeWLgo4de5WNqQ" type="Description">
+              <element xsi:nil="true"/>
+            </children>
+            <styles xmi:type="notation:TextStyle" xmi:id="_u31tEcSnEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_u31tEsSnEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_u31tE8SnEeWLgo4de5WNqQ" x="440" y="80" width="413"/>
+          </children>
+          <children xmi:type="notation:Shape" xmi:id="_QoMCIMSoEeWLgo4de5WNqQ" type="Note" fontName=".SF NS Text" description="Spring用BeanDefinition表示&lt;bean>，并且将这些BeanDefinition注册到BeanDefinitionRegistry中。" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_QoMpMMSoEeWLgo4de5WNqQ" type="DiagramName">
+              <element xsi:nil="true"/>
+            </children>
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_QoMpMcSoEeWLgo4de5WNqQ" type="Description">
+              <element xsi:nil="true"/>
+            </children>
+            <styles xmi:type="notation:TextStyle" xmi:id="_QoMCIcSoEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_QoMCIsSoEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_QoMCI8SoEeWLgo4de5WNqQ" x="-42" y="368" width="267" height="53"/>
+          </children>
+          <children xmi:type="notation:Shape" xmi:id="_sQxHsMSoEeWLgo4de5WNqQ" type="Note" fontName=".SF NS Text" description="Spring的BeanDEfinitionRegistry就像是Spring配置信息的内存数据库，主要以map的形式缓存，后续操作直接从BeanDefinitionRegistry中毒曲配置信息" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_sQxuwMSoEeWLgo4de5WNqQ" type="DiagramName">
+              <element xsi:nil="true"/>
+            </children>
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_sQxuwcSoEeWLgo4de5WNqQ" type="Description">
+              <element xsi:nil="true"/>
+            </children>
+            <styles xmi:type="notation:TextStyle" xmi:id="_sQxHscSoEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_sQxHssSoEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_sQxHs8SoEeWLgo4de5WNqQ" x="-42" y="420" width="261" height="61"/>
+          </children>
           <styles xmi:type="notation:DiagramStyle" xmi:id="_Lfy24sSmEeWLgo4de5WNqQ"/>
           <edges xmi:type="notation:Edge" xmi:id="_dTDdIMSmEeWLgo4de5WNqQ" type="4001" element="_dRmroMSmEeWLgo4de5WNqQ" source="_QYXIUMSmEeWLgo4de5WNqQ" target="_XYqiUMSmEeWLgo4de5WNqQ">
             <children xmi:type="notation:Node" xmi:id="_dTFSUMSmEeWLgo4de5WNqQ" type="6001">
@@ -1971,6 +2043,26 @@
             <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_e_1IA8SmEeWLgo4de5WNqQ" points="[9, 3, 0, -109]$[9, 112, 0, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_e_1vFsSmEeWLgo4de5WNqQ" id="(0.5034013605442177,0.926829268292683)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_e_1vF8SmEeWLgo4de5WNqQ" id="(0.504424778761062,0.0)"/>
+          </edges>
+          <edges xmi:type="notation:Connector" xmi:id="_3nYFgMSmEeWLgo4de5WNqQ" type="NoteAttachment" source="_Z1kpoMSmEeWLgo4de5WNqQ" target="_3myPoMSmEeWLgo4de5WNqQ" lineWidth="1">
+            <styles xmi:type="notation:ArrowStyle" xmi:id="_3nYFgcSmEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_3nYFgsSmEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_3nYFg8SmEeWLgo4de5WNqQ" points="[57, 6, -173, -111]$[136, 57, -94, -60]"/>
+          </edges>
+          <edges xmi:type="notation:Connector" xmi:id="_bwtrMMSnEeWLgo4de5WNqQ" type="NoteAttachment" source="_Oe0MwMSmEeWLgo4de5WNqQ" target="_bwoysMSnEeWLgo4de5WNqQ" lineWidth="1">
+            <styles xmi:type="notation:ArrowStyle" xmi:id="_bwtrMcSnEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_bwtrMsSnEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_bwtrM8SnEeWLgo4de5WNqQ" points="[54, -8, 72, 64]$[13, -44, 31, 28]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_bwx8oMSnEeWLgo4de5WNqQ" id="(0.0,0.21951219512195122)"/>
+          </edges>
+          <edges xmi:type="notation:Connector" xmi:id="_gTIGcMSnEeWLgo4de5WNqQ" type="NoteAttachment" source="_QYXIUMSmEeWLgo4de5WNqQ" target="_gTFDIMSnEeWLgo4de5WNqQ" lineWidth="1">
+            <styles xmi:type="notation:ArrowStyle" xmi:id="_gTIGccSnEeWLgo4de5WNqQ"/>
+            <styles xmi:type="notation:LineTypeStyle" xmi:id="_gTIGcsSnEeWLgo4de5WNqQ"/>
+            <element xsi:nil="true"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_gTIGc8SnEeWLgo4de5WNqQ" points="[3, -16, 69, 140]$[-53, -128, 13, 28]"/>
+            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_gTM-8MSnEeWLgo4de5WNqQ" id="(0.0,0.4146341463414634)"/>
           </edges>
         </data>
       </ownedAnnotationEntries>
