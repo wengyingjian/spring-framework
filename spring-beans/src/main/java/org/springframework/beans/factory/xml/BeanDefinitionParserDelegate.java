@@ -583,7 +583,21 @@ public class BeanDefinitionParserDelegate {
 			//
 			//TODO
 			parseConstructorArgElements(ele, bd);
-			//解析property子元素//TODO
+			//解析property子元素,这样子：
+			// <bean id= "test" class="test.TestClass">
+			//		<property name="testStr" value="aaa"/>
+			// </bean>
+			//或者是这样子：
+			//<bean id = "a">
+			// <property name="p">
+			//	<list>
+			//	 <value>aa</value>
+			//	 <value>bb</value>
+			//	</list>
+			// </property>
+			//</bean>
+			//
+			//TODO
 			parsePropertyElements(ele, bd);
 			//解析qualifier子元素//TODO
 			parseQualifierElements(ele, bd);
@@ -814,9 +828,11 @@ public class BeanDefinitionParserDelegate {
 	 */
 	public void parsePropertyElements(Element beanEle, BeanDefinition bd) {
 		NodeList nl = beanEle.getChildNodes();
+		//提取所有的property子元素，然后调用parsePropertyElement处理
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, PROPERTY_ELEMENT)) {
+				//TODO
 				parsePropertyElement((Element) node, bd);
 			}
 		}
@@ -968,9 +984,13 @@ public class BeanDefinitionParserDelegate {
 	}
 
 	/**
+	 * 与构造函数的注入方式不同的是将返回值使用PropertyValue进行封装，
+	 * 并记录在了BeanDefinition中的propertyValues属性中
+	 * 
 	 * Parse a property element.
 	 */
 	public void parsePropertyElement(Element ele, BeanDefinition bd) {
+		//获取配置元素中name的值
 		String propertyName = ele.getAttribute(NAME_ATTRIBUTE);
 		if (!StringUtils.hasLength(propertyName)) {
 			error("Tag 'property' must have a 'name' attribute", ele);
@@ -978,14 +998,17 @@ public class BeanDefinitionParserDelegate {
 		}
 		this.parseState.push(new PropertyEntry(propertyName));
 		try {
+			//不允许多次对同一属性配置
 			if (bd.getPropertyValues().contains(propertyName)) {
 				error("Multiple 'property' definitions for property '" + propertyName + "'", ele);
 				return;
 			}
+			//TODO
 			Object val = parsePropertyValue(ele, bd, propertyName);
 			PropertyValue pv = new PropertyValue(propertyName, val);
 			parseMetaElements(ele, pv);
 			pv.setSource(extractSource(ele));
+			//TODO
 			bd.getPropertyValues().addPropertyValue(pv);
 		}
 		finally {
