@@ -357,6 +357,8 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			}
 			// Send registration event.
 			//4.最后发出响应事件，通知相关的监听器，这个bean已经加载完成了
+			//3.1.5通知监听器解析及注册完成.
+			//这里的实现只为扩展，当程序开发人员需要对注册beanDefinition事件进行监听时可以通过注册监听器的方式并将处理逻辑写入监听器中，目前在Sping中并没有对此事件做任何逻辑处理。
 			getReaderContext().fireComponentRegistered(new BeanComponentDefinition(bdHolder));
 		}
 	}
