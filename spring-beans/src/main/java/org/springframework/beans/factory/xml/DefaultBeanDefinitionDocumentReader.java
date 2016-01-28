@@ -212,10 +212,12 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		}
 		//"alias"
 		else if (delegate.nodeNameEquals(ele, ALIAS_ELEMENT)) {
+			//TODO:3.2
 			processAliasRegistration(ele);
 		}
 		//"bean"
-		else if (delegate.nodeNameEquals(ele, BEAN_ELEMENT)) {//TODO
+		else if (delegate.nodeNameEquals(ele, BEAN_ELEMENT)) {
+			//TODO:3.1
 			processBeanDefinition(ele, delegate);
 		}
 		//"beans"
@@ -295,10 +297,13 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	}
 
 	/**
+	 * 跟之前的bean中的alias解析大同小异，都是将别名与beanName组成一对注册值registry中。
 	 * Process the given alias element, registering the alias with the registry.
 	 */
 	protected void processAliasRegistration(Element ele) {
+		//获取beanName，
 		String name = ele.getAttribute(NAME_ATTRIBUTE);
+		//获取alias
 		String alias = ele.getAttribute(ALIAS_ATTRIBUTE);
 		boolean valid = true;
 		if (!StringUtils.hasText(name)) {
@@ -311,12 +316,14 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		}
 		if (valid) {
 			try {
+				//注册alias
 				getReaderContext().getRegistry().registerAlias(name, alias);
 			}
 			catch (Exception ex) {
 				getReaderContext().error("Failed to register alias '" + alias +
 						"' for bean with name '" + name + "'", ele, ex);
 			}
+			//别名注册后通知监听器做相应处理
 			getReaderContext().fireAliasRegistered(name, alias, extractSource(ele));
 		}
 	}
