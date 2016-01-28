@@ -113,6 +113,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 	/**
 	 * 
+	 * 
 	 * 真正开始解析
 	 * Register each bean definition within the given root {@code <beans/>} element.
 	 */
@@ -224,6 +225,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		//"beans"
 		else if (delegate.nodeNameEquals(ele, NESTED_BEANS_ELEMENT)) {
 			// recurse
+			//TODO:3.4：与单独的配置文件并没有太大的差别，无非是递归调用beans的解析过程。
 			doRegisterBeanDefinitions(ele);
 		}
 	}
