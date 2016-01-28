@@ -47,7 +47,10 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
 	/**
 	 * 给name注册别名<br/>
-	 * 
+	 * 1.alias与beanName相同情况处理。若alias与beanName并名称相同则不需要处理并删除掉原来的alis。<br/>
+	 * 2.alias覆盖处理。若aliasName已经使用并已经指向了另一beanName则需要用户的设置处理。<br/>
+	 * 3.alias循环检查<br/>
+	 * 4.注册alias<br/>
 	 */
 	@Override
 	public void registerAlias(String name, String alias) {

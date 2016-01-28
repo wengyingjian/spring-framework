@@ -348,6 +348,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				// Register the final decorated instance.
 				//3.解析完成后，需要对解析后的bdHolder进行注册，
 				//同样，注册操作委托给了BeanDefinitionReaderUtils的registerBeanDefinition方法。
+				//TODO
 				BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
 			}
 			catch (BeanDefinitionStoreException ex) {
