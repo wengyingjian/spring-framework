@@ -333,6 +333,16 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		//2.当返回的bdHolder不为空(期间无error)的情况下
 		//若存在默认标签的子节点下再有自定义属性，还需要再次对自定义标签进行解析
 		if (bdHolder != null) {
+			/**
+			 * 在descorateBeanDefinitionIfRequired中看到默认的标签是直接略过的（因为已经解析过了），
+			 * 这里只对 自定义的标签活着说对bean的自定义属性感兴趣。<br/>
+			 * 在方法中实现了寻找自定义标签并根据自定义标签寻找命名空间处理器，并进一步的解析。
+			 */
+			//-3.1.3如果需要的话，对beanDefinition进行装饰，适用：
+			// <bean id="test" class="test.MyClass">
+			//   <mybean:user username="aaa"/>
+			// </bean>
+			//TODO
 			bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
 			try {
 				// Register the final decorated instance.
