@@ -1562,7 +1562,8 @@ public class BeanDefinitionParserDelegate {
 
 	//containerBd为父类bean，对顶层元素的解析应设置为null
 	public BeanDefinition parseCustomElement(Element ele, BeanDefinition containingBd) {
-		//获取对应的命名空间
+		//4.2.1获取对应的命名空间
+		//TODO
 		String namespaceUri = getNamespaceURI(ele);
 		//根据命名空间找到对应的NamespaceHandler
 		NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);
@@ -1648,6 +1649,7 @@ public class BeanDefinitionParserDelegate {
 
 
 	/**
+	 * 通过org.w3c.dom.Node提供的方法实现
 	 * Get the namespace URI for the supplied node. The default implementation uses {@link Node#getNamespaceURI}.
 	 * Subclasses may override the default implementation to provide a different namespace identification mechanism.
 	 * @param node the node
