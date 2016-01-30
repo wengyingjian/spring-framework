@@ -1574,7 +1574,8 @@ public class BeanDefinitionParserDelegate {
 			error("Unable to locate Spring NamespaceHandler for XML schema namespace [" + namespaceUri + "]", ele);
 			return null;
 		}
-		//调用自定义的NamespaceHandler进行解析
+		//4.2.3.调用自定义的NamespaceHandler进行解析
+		//我们实现的自定义命名空间处理器中并没有实现parse方法，所以以下调用的实现在父类方法中
 		return handler.parse(ele, new ParserContext(this.readerContext, this, containingBd));
 	}
 
