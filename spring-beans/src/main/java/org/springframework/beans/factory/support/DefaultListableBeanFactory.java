@@ -332,6 +332,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return getBean(requiredType, (Object[]) null);
 	}
 
+	//TODO:5.bean的加载
 	@Override
 	public <T> T getBean(Class<T> requiredType, Object... args) throws BeansException {
 		Assert.notNull(requiredType, "Required type must not be null");
@@ -357,6 +358,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 			String primaryCandidate = determinePrimaryCandidate(candidates, requiredType);
 			if (primaryCandidate != null) {
+				//TODO
 				return getBean(primaryCandidate, requiredType, args);
 			}
 			String priorityCandidate = determineHighestPriorityCandidate(candidates, requiredType);

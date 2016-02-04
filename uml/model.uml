@@ -91,4 +91,9 @@
     <interfaceRealization xmi:id="_e-SP4MSmEeWLgo4de5WNqQ" client="_XYWZQMSmEeWLgo4de5WNqQ" supplier="_Z0Fb4MSmEeWLgo4de5WNqQ" contract="_Z0Fb4MSmEeWLgo4de5WNqQ"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_Z0Fb4MSmEeWLgo4de5WNqQ" name="BeanDefintion"/>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_AVZSsMtDEeWPc_YVbYPk-w" name="NewModel">
+    <ownedAttribute xmi:id="_IFcuoMtDEeWPc_YVbYPk-w" name="Class18" type="_IE24wMtDEeWPc_YVbYPk-w"/>
+    <lifeline xmi:id="_IE-0kMtDEeWPc_YVbYPk-w" name="Class18" represents="_IFcuoMtDEeWPc_YVbYPk-w"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_IE24wMtDEeWPc_YVbYPk-w" name="Class18"/>
 </uml:Model>
