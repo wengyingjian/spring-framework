@@ -93,7 +93,8 @@
   <packagedElement xmi:type="uml:Interface" xmi:id="_Z0Fb4MSmEeWLgo4de5WNqQ" name="BeanDefintion"/>
   <packagedElement xmi:type="uml:Interaction" xmi:id="_AVZSsMtDEeWPc_YVbYPk-w" name="NewModel">
     <ownedAttribute xmi:id="_IFcuoMtDEeWPc_YVbYPk-w" name="Class18" type="_IE24wMtDEeWPc_YVbYPk-w"/>
-    <lifeline xmi:id="_IE-0kMtDEeWPc_YVbYPk-w" name="Class18" represents="_IFcuoMtDEeWPc_YVbYPk-w"/>
+    <ownedAttribute xmi:id="_TlAiMMtDEeWPc_YVbYPk-w" name="Class19" type="_Tk_UEMtDEeWPc_YVbYPk-w"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_IE24wMtDEeWPc_YVbYPk-w" name="Class18"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Tk_UEMtDEeWPc_YVbYPk-w" name="Class19"/>
 </uml:Model>

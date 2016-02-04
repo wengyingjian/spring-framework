@@ -88,6 +88,48 @@ import org.springframework.core.ResolvableType;
  *
  * 对bean的获取操作及一些信息获取工作
  * 
+ * 
+ * T getObject():返回由FactoryBean创建的bean实例，如果isSingleton()返回true，则该实力会被放到Spring容器中但离缓存池中
+ * 
+ * boolean isSingleton():返回由FactoryBean创建的bean实例的作用域是singleton还是prototype
+ * 
+ * Class<T> getObjectType():返回FactoryBean创建的bean类型
+ * 
+ * 当配置文件中<bean>的class配置属性的实现类是FactoryBean时，通过getBean方法返回的不是FactoroyBean本身，
+ * 而是FactoryBean#getObject()方法所返回的对象，相当于FactoryBean#getObject()代理了getBean()方法。
+ * 
+ * 例如：
+ * 1.传统的方法：
+ * class Car{
+ * 	int maxSpeed;
+ *  String brand;
+ *  double price;
+ *  //getters and setters
+ * }
+ * 在配置中需要多个<property>标签
+ * 
+ * 2.使用CarBeanFactory 
+ * class CarBeanFactory implements BeanFactory<Car> {
+ * 	private String carInfo;
+ * 	public Car getObject(){
+ * 		String[] infos=carInfo.split(",");
+ * 		Car car=new Car(infos[0],Integer.valueOf(infos[1]),Double.valueOf(infos[2)));
+ * 		return car;
+ * 	}
+ *  public Class<Car> getBeanType(){
+ *  	return Car.class;
+ *  }
+ *  public boolean isSingleton(){
+ *  	return false;
+ *  }
+ * //getters and setters
+ * }
+ * 此时在配置文件中:
+ * <bean id="car" class="com...a.a.a.CarBeanFactory" carInfo="大车,400,222222"/>
+ * 
+ * 当调用getBean("car")的时候，找到了carBeanFactory,返回它getObject方法的返回值
+ * 若需要获取carBeanFactory对象，则使用getBean("&car")方法。
+ * 
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -130,6 +172,7 @@ public interface BeanFactory {
 	 * @throws NoSuchBeanDefinitionException if there is no bean definition
 	 * with the specified name
 	 * @throws BeansException if the bean could not be obtained
+	 * 
 	 */
 	Object getBean(String name) throws BeansException;
 

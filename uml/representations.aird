@@ -2194,53 +2194,29 @@
     <ownedRepresentations xmi:type="sequence:SequenceDDiagram" xmi:id="_DfcM0MtDEeWPc_YVbYPk-w" name="BeanInitialize">
       <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_DgsxEMtDEeWPc_YVbYPk-w" source="GMF_DIAGRAMS">
         <data xmi:type="notation:Diagram" xmi:id="_DgsxEctDEeWPc_YVbYPk-w" type="Sirius" element="_DfcM0MtDEeWPc_YVbYPk-w" measurementUnit="Pixel">
-          <children xmi:type="notation:Node" xmi:id="_IIA6cMtDEeWPc_YVbYPk-w" type="2001" element="_IF2-UMtDEeWPc_YVbYPk-w">
-            <children xmi:type="notation:Node" xmi:id="_IIBhgMtDEeWPc_YVbYPk-w" type="5002">
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_IIBhgctDEeWPc_YVbYPk-w" y="5"/>
+          <children xmi:type="notation:Node" xmi:id="_Vw_RkMtDEeWPc_YVbYPk-w" type="2001" element="_ViTVUMtDEeWPc_YVbYPk-w">
+            <children xmi:type="notation:Node" xmi:id="_Vw_4oMtDEeWPc_YVbYPk-w" type="5002">
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_Vw_4octDEeWPc_YVbYPk-w" y="5"/>
             </children>
-            <children xmi:type="notation:Node" xmi:id="_IID9wMtDEeWPc_YVbYPk-w" type="3001" element="_IGScIMtDEeWPc_YVbYPk-w">
-              <children xmi:type="notation:Node" xmi:id="_IIEk0MtDEeWPc_YVbYPk-w" type="5001">
-                <layoutConstraint xmi:type="notation:Location" xmi:id="_IIEk0ctDEeWPc_YVbYPk-w" y="5"/>
-              </children>
-              <children xmi:type="notation:Node" xmi:id="_IINuwMtDEeWPc_YVbYPk-w" type="3003" element="_IGScIctDEeWPc_YVbYPk-w">
-                <styles xmi:type="notation:ShapeStyle" xmi:id="_IINuwctDEeWPc_YVbYPk-w" fontName=".SF NS Text"/>
-                <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IINuwstDEeWPc_YVbYPk-w"/>
-              </children>
-              <styles xmi:type="notation:ShapeStyle" xmi:id="_IID9wctDEeWPc_YVbYPk-w" fontName=".SF NS Text" fontHeight="8"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IID9wstDEeWPc_YVbYPk-w" y="54" width="10" height="388"/>
+            <children xmi:type="notation:Node" xmi:id="_VxBGwMtDEeWPc_YVbYPk-w" type="3005" element="_ViT8YMtDEeWPc_YVbYPk-w">
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_VxBGwctDEeWPc_YVbYPk-w" fontName=".SF NS Text"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_VxBGwstDEeWPc_YVbYPk-w"/>
             </children>
-            <children xmi:type="notation:Node" xmi:id="_IINHsMtDEeWPc_YVbYPk-w" type="3003" element="_IGKgUMtDEeWPc_YVbYPk-w">
-              <styles xmi:type="notation:ShapeStyle" xmi:id="_IINHsctDEeWPc_YVbYPk-w" fontName=".SF NS Text"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IINHsstDEeWPc_YVbYPk-w"/>
-            </children>
-            <styles xmi:type="notation:ShapeStyle" xmi:id="_IIA6cctDEeWPc_YVbYPk-w" fontName=".SF NS Text"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IIA6cstDEeWPc_YVbYPk-w" x="68" y="50" width="124" height="62"/>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_Vw_RkctDEeWPc_YVbYPk-w" fontName=".SF NS Text" fontHeight="8"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vw_RkstDEeWPc_YVbYPk-w" width="481" height="106"/>
           </children>
           <styles xmi:type="notation:DiagramStyle" xmi:id="_DgsxEstDEeWPc_YVbYPk-w"/>
         </data>
       </ownedAnnotationEntries>
-      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_IF2-UMtDEeWPc_YVbYPk-w" name="Class18 : Class18 [1]" width="10" height="4" resizeKind="NSEW">
-        <target xmi:type="uml:Lifeline" href="model.uml#_IE-0kMtDEeWPc_YVbYPk-w"/>
-        <semanticElements xmi:type="uml:Lifeline" href="model.uml#_IE-0kMtDEeWPc_YVbYPk-w"/>
-        <graphicalFilters xmi:type="diagram:AbsoluteBoundsFilter" xmi:id="_IInXYMtDEeWPc_YVbYPk-w" x="68" y="50" height="62" width="124"/>
-        <ownedBorderedNodes xmi:type="diagram:DNode" xmi:id="_IGScIMtDEeWPc_YVbYPk-w" name="Class18" width="1" height="40" resizeKind="NSEW">
-          <target xmi:type="uml:Lifeline" href="model.uml#_IE-0kMtDEeWPc_YVbYPk-w"/>
-          <semanticElements xmi:type="uml:Lifeline" href="model.uml#_IE-0kMtDEeWPc_YVbYPk-w"/>
-          <ownedStyle xmi:type="diagram:Square" xmi:id="_IGScIctDEeWPc_YVbYPk-w" showIcon="false" borderSize="1" borderSizeComputationExpression="1" labelPosition="node" width="1" height="40">
-            <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_IGScIstDEeWPc_YVbYPk-w"/>
-            <description xmi:type="style:SquareDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Sequence%20Diagram']/@defaultLayer/@nodeMappings[name='SD_Lifeline%20Instance%20Role']/@borderedNodeMappings[name='SD_Lifeline%20Execution']/@style"/>
-            <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_IGScI8tDEeWPc_YVbYPk-w" red="114" green="159" blue="207"/>
-            <color xmi:type="viewpoint:RGBValues" xmi:id="_IGScJMtDEeWPc_YVbYPk-w" red="136" green="136" blue="136"/>
-          </ownedStyle>
-          <actualMapping xmi:type="description_2:ExecutionMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Sequence%20Diagram']/@defaultLayer/@nodeMappings[name='SD_Lifeline%20Instance%20Role']/@borderedNodeMappings[name='SD_Lifeline%20Execution']"/>
-        </ownedBorderedNodes>
-        <ownedStyle xmi:type="diagram:Square" xmi:id="_IGKgUMtDEeWPc_YVbYPk-w" labelSize="9" labelPosition="node" width="10" height="4">
-          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_IGKgUctDEeWPc_YVbYPk-w"/>
-          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Sequence%20Diagram']/@defaultLayer/@nodeMappings[name='SD_Lifeline%20Instance%20Role']/@conditionnalStyles.0/@style"/>
-          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_IGKgUstDEeWPc_YVbYPk-w"/>
-          <color xmi:type="viewpoint:RGBValues" xmi:id="_IGKgU8tDEeWPc_YVbYPk-w" red="194" green="239" blue="255"/>
+      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_ViTVUMtDEeWPc_YVbYPk-w" width="-1" height="-1" resizeKind="NSEW">
+        <target xmi:type="uml:Interaction" href="model.uml#_AVZSsMtDEeWPc_YVbYPk-w"/>
+        <semanticElements xmi:type="uml:Interaction" href="model.uml#_AVZSsMtDEeWPc_YVbYPk-w"/>
+        <ownedStyle xmi:type="diagram:WorkspaceImage" xmi:id="_ViT8YMtDEeWPc_YVbYPk-w" showIcon="false" labelPosition="node" workspacePath="/org.obeonetwork.dsl.uml2.design/icons/empty.svg">
+          <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_ViT8YctDEeWPc_YVbYPk-w"/>
+          <description xmi:type="style:WorkspaceImageDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Reused']/@ownedRepresentations[name='Reused%20Description']/@defaultLayer/@nodeMappings[name='Empty%20Diagram']/@style"/>
+          <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_ViT8YstDEeWPc_YVbYPk-w"/>
         </ownedStyle>
-        <actualMapping xmi:type="description_2:InstanceRoleMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Sequence%20Diagram']/@defaultLayer/@nodeMappings[name='SD_Lifeline%20Instance%20Role']"/>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Reused']/@ownedRepresentations[name='Reused%20Description']/@defaultLayer/@nodeMappings[name='Empty%20Diagram']"/>
       </ownedDiagramElements>
       <description xmi:type="description_2:SequenceDiagramDescription" href="platform:/plugin/org.obeonetwork.dsl.uml2.design/description/uml2.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Sequence%20Diagram']"/>
       <filterVariableHistory xmi:type="diagram:FilterVariableHistory" xmi:id="_DfcM1ctDEeWPc_YVbYPk-w"/>

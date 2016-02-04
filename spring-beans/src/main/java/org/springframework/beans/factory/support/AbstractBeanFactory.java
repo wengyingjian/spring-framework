@@ -273,7 +273,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 *  在这个步骤中，Spring会根据不同的配置进行不同的初始化策略。
 	 * 9.类型转换
 	 * 	程序到这里返回的bean后已经基本结束了，通常对该方法的调用参数requiredType是为空的，
-	 * 	但是会存在这样的情况
+	 * 	但是会存在这样的情况返回的bean其实是个String，但是requiredType却传入Integer类型，那么喝这个时候本作用就会起作用了，
+	 * 	它的功能是将返回的bean转换为requiredType所指定的类型。
+	 *  当然String转换为Integer是最简单的一种转换，在Spring中提供了各种各样的转换器，用户也可以自己扩展转换器来满足需求。
 	 *  
 	 *  
 	 */
