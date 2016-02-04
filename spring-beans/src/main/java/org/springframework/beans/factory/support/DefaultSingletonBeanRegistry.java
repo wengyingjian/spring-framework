@@ -183,6 +183,8 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 	@Override
 	public Object getSingleton(String beanName) {
+		//参数true设置标识允许早期依赖
+		//TODO:5.2
 		return getSingleton(beanName, true);
 	}
 
@@ -193,21 +195,46 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @param beanName the name of the bean to look for
 	 * @param allowEarlyReference whether early references should be created or not
 	 * @return the registered singleton object, or {@code null} if none found
+	 * 
+	 * 这个方法涉及到循环依赖检测，以及很多变量的记录获取。
+	 * 
+	 * 这个方法首先尝试从singletonObject里获取实例，
+	 * 如果获取不到再从earlySingletonObject中获取，
+	 * 如果还是获取不到，再尝试从singletionFactories里面获取beanName对应的ObjectFactory，
+	 *  然后调用这个ObjectFactory的getObject方法来创建bean，并放到earlySingletonObjects里面去，
+	 *  并且从singletonFactories里面remove掉这个ObjectFactory，
+	 * 而对于后续的所有内存操作都只是为了循环依赖检测时候使用，也就是在allowEarlyReference为true的情况下才使用
+	 * 
+	 * 解释：
+	 * singletonObjects:用于保存beanName和创建bean实例之间的关系，
+	 * 		bean name->bean instance
+	 * singletonFactories:用于保存beanName和创建bean的工厂直接的关系，
+	 * 		bean name -> object factory
+	 * earlySingletonObjects:也是保存beanName和创建bean实例之间的关系，与singletonObjects的不同之处在于，
+	 *  	当一个单例bean被放倒这里面后，那么当bean还在创建过程中，就可以通过getBean方法获取到了，其目的是用来检测循环依赖引用
+	 *  registeredSingletons:用来保存当前所有已注册的bean。
 	 */
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		Object singletonObject = this.singletonObjects.get(beanName);
 		//如果没有找到bean，但是发现它现在正在生成中
+		//检查缓存中是否存在实例
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+			//如果为空，则锁定全局变量并处理
 			synchronized (this.singletonObjects) {
 				//那就从earlySingletonObjects中拿。
+				//如果此bean正在加载则不处理
 				singletonObject = this.earlySingletonObjects.get(beanName);
 				//如果earlySingletonObjects中还是没有拿到。
 				//再从singletonFactories中拿，前提是allowEarlyReference＝true
 				if (singletonObject == null && allowEarlyReference) {
+					//如果某些方法需要提前初始化的时候则会调用addSingletonFactory方法
+					//将对应的ObjectFactory初始化策略存储在singletonFactories
 					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 					if (singletonFactory != null) {
-						//但是拿到了以后要将beanName从singletonFactories移至earlySingletonObjects
+						//当拿到了以后要将beanName从singletonFactories移至earlySingletonObjects
+						//调用预先设定的getObject方法
 						singletonObject = singletonFactory.getObject();
+						//记录在缓存中，earlySingletonObjects和singletonFactories互斥
 						this.earlySingletonObjects.put(beanName, singletonObject);
 						this.singletonFactories.remove(beanName);
 					}
