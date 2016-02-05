@@ -368,10 +368,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					}
 				}
 
-				//实例化依赖的bean后便可以是梨花mdb本身饿了
+				//实例化依赖的bean后便可以实例化mdb本身了
 				//singleton模式的创建
 				// Create bean instance.
 				if (mbd.isSingleton()) {
+					//如果缓存中不存在已加载的单例bean就需要从头开始bean的加载过程了
+					//TODO:5.4
 					sharedInstance = getSingleton(beanName, new ObjectFactory<Object>() {
 						@Override
 						public Object getObject() throws BeansException {
