@@ -1101,8 +1101,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * 1.如果在RootBeanDefinition中存在factoryMethodName属性，
 	 *  或者说在配置文件中配置了factory-method，
 	 *  那么spring会尝试使用instantiateUsingFactoryMethod(beanName,mbd,args)方法根据RootBeanDefinition中的配置生成bean的实例
-	 * 2.解析构造函数并进行构造函数的实例化。因为一个bean对应的类中可能会有多个构造函数，而每个构造函数参数不同，Spring在根据参数及类型去判断最终会使用哪个构造函数进行初始化。
-	 *  但是判断的过程是个比较消耗性能的步骤，所以采用缓存机制，如果已经解析过则不需要解析而是直接从RootBeanDefinition中的属性resolvedConstructorOfFactoryMethod缓存的值去取，否则需要再次解析，并将解析的结果添加至RootBeanDefinition中的属性resolvedConstuctorOrFactoryMethod中。
+	 * 2.解析构造函数并进行构造函数的实例化。
+	 *  因为一个bean对应的类中可能会有多个构造函数，而每个构造函数参数不同，Spring在根据参数及类型去判断最终会使用哪个构造函数进行初始化。
+	 *  但是判断的过程是个比较消耗性能的步骤，所以采用缓存机制，如果已经解析过则不需要解析而是直接从RootBeanDefinition中的属性resolvedConstructorOfFactoryMethod缓存的值去取，
+	 *  否则需要再次解析，并将解析的结果添加至RootBeanDefinition中的属性resolvedConstuctorOrFactoryMethod中。
 	 */
 	protected BeanWrapper createBeanInstance(String beanName, RootBeanDefinition mbd, Object[] args) {
 		// Make sure bean class is actually resolved at this point.
@@ -1114,7 +1116,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					"Bean class isn't public, and non-public access not allowed: " + beanClass.getName());
 		}
 
-		//如果工厂方法不为空则使用工厂方法初始化策略
+		//1.如果工厂方法不为空则使用工厂方法初始化策略
 		if (mbd.getFactoryMethodName() != null)  {
 			return instantiateUsingFactoryMethod(beanName, mbd, args);
 		}
@@ -1135,6 +1137,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (resolved) {
 			if (autowireNecessary) {
 				//构造函数自动注入
+				//TODO:5.7.1.1.autowireConstructor
 				return autowireConstructor(beanName, mbd, null, null);
 			}
 			else {
@@ -1244,10 +1247,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param explicitArgs argument values passed in programmatically via the getBean method,
 	 * or {@code null} if none (-> use constructor argument values from bean definition)
 	 * @return BeanWrapper for the new instance
+	 * 
 	 */
 	protected BeanWrapper autowireConstructor(
 			String beanName, RootBeanDefinition mbd, Constructor<?>[] ctors, Object[] explicitArgs) {
-
+		//TODO:5.7.1.1
 		return new ConstructorResolver(this).autowireConstructor(beanName, mbd, ctors, explicitArgs);
 	}
 
