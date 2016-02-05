@@ -521,14 +521,48 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #instantiateBean
 	 * @see #instantiateUsingFactoryMethod
 	 * @see #autowireConstructor
+	 * 
+	 * 5.7.创建bean
+	 * 当经历了resolveBeforeInstantiation方法后，程序有两个选择，
+	 * 如果创建了代理或者重写了InstantiationAwareBeanPostProcessor的postProcessorBeforeInstantiation方法，
+	 * 并在方法postProcessBeforeInstantiation中改变了bean，则直接返回就可以了。
+	 * 否则需要进行常规的bean的创建，
+	 * 这里常规bean的创建就是在doCreateBean中完成的。
+	 * 
+	 * 
+	 * 整个函数概要思路：
+	 * 1.如果是单例则需要首先清理缓存。
+	 * 2.实例化bean，将beanDefinition转换为BeanWrapper。
+	 *   转换是一个复杂的过程，但是我们可以尝试概括大概的功能，如下：
+	 *   1.如果存在工厂方法则使用工厂方法进行初始化。
+	 *   2.一个类有多个构造函数，每个构造函数都有不同的参数，所以需要根据参数锁定构造函数并进行初始化
+	 *   3.如果既不存在工厂方法也不存在带有参数的构造函数，则使用默认的构造函数进行bean的实例化
+	 * 3.MergedBeanDefinitionPostProcessor的应用
+	 *   bean合并后的处理，Autowired注解正是通过 此方法实现诸如类型的预解析。
+	 * 4.依赖处理
+	 * 	 在Spring中会有循环依赖的情况，
+	 * 	 例如，当A中含有B的属性，而B中又含有A的属性时就会构成一个循环依赖，
+	 *   此时如果A和B都是单例，那么在Spring中的处理方式就是当创建B的时候，涉及自动注入A的步骤时，
+	 *   并不是直接再去创建A，而是通过放入缓存中的ObjectFactory来创建实例，这样就解决了循环依赖问题。
+	 * 5.属性填充。将所有属性填充至bean的实例中
+	 * 6.循环依赖检查
+	 * 	 之前有提到过，在Spring中解决循环依赖只对单例有效，而对于prototype的bean，Spring没有好的解决方法，唯一要做的就是抛出异常。
+	 * 	 这个步骤里面会检测已经加载的bean是否已经出现了循环依赖，并判断是否需要抛出异常
+	 * 7.注册DisposableBean。
+	 *   如果配置了destory-method,这里需要注册以便于在销毁时候调用 。
+	 * 8.完成创建并返回。
+	 *   
+	 * 
 	 */
 	protected Object doCreateBean(final String beanName, final RootBeanDefinition mbd, final Object[] args) {
 		// Instantiate the bean.
 		BeanWrapper instanceWrapper = null;
 		if (mbd.isSingleton()) {
+			//1.
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
+			//2.根据指定bean使用对于的策略创建新的实例，如：工厂方法、构造函数自动注入、简单初始化
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
 		final Object bean = (instanceWrapper != null ? instanceWrapper.getWrappedInstance() : null);
@@ -537,6 +571,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Allow post-processors to modify the merged bean definition.
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
+				//3.应用MergedBeanDefinitionPostProcessor
 				applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
 				mbd.postProcessed = true;
 			}
@@ -544,6 +579,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Eagerly cache singletons to be able to resolve circular references
 		// even when triggered by lifecycle interfaces like BeanFactoryAware.
+		/**
+		 * 是否需要提早曝光：单例&循序循环依赖&当前bean正在创建中，检测循环依赖
+		 */
 		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
 				isSingletonCurrentlyInCreation(beanName));
 		if (earlySingletonExposure) {
@@ -551,9 +589,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.debug("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			}
+			//4.为避免后期循环依赖，可以在bean初始化完成前将创建实例的ObjectFactory加入工厂
 			addSingletonFactory(beanName, new ObjectFactory<Object>() {
 				@Override
 				public Object getObject() throws BeansException {
+					//对bean再一次依赖引用，主要应用SmartInstantiationAwareBeanPostProcessor
+					//其中我们熟知的AOP就是在这里将advice动态注入bean中，若没有则直接返回bean，不做任何处理
 					return getEarlyBeanReference(beanName, mbd, bean);
 				}
 			});
@@ -562,8 +603,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Initialize the bean instance.
 		Object exposedObject = bean;
 		try {
+			//5.对bean进行填充，将各个属性值注入，其中，可能存在依赖于其它bean的属性，则会递归初始依赖bean
 			populateBean(beanName, mbd, instanceWrapper);
 			if (exposedObject != null) {
+				//调用初始化方法，比如init-method
 				exposedObject = initializeBean(beanName, exposedObject, mbd);
 			}
 		}
@@ -578,7 +621,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		if (earlySingletonExposure) {
 			Object earlySingletonReference = getSingleton(beanName, false);
+			//earlySingletonReference只有在检测到有循环依赖的情况下才会不为空
 			if (earlySingletonReference != null) {
+				//如果exposedObject没有在初始化方法中被改变，也就是没有被增强
 				if (exposedObject == bean) {
 					exposedObject = earlySingletonReference;
 				}
@@ -586,10 +631,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					String[] dependentBeans = getDependentBeans(beanName);
 					Set<String> actualDependentBeans = new LinkedHashSet<String>(dependentBeans.length);
 					for (String dependentBean : dependentBeans) {
+						//检测依赖
 						if (!removeSingletonIfCreatedForTypeCheckOnly(dependentBean)) {
 							actualDependentBeans.add(dependentBean);
 						}
 					}
+					/**
+					 * 因为bean创建后其所以来的bean一定是已经创建的
+					 * actualDependentBeans不为空则表示当前bean创建后其依赖的bean却没有没全部创建完，也就是说存在循环依赖
+					 */
 					if (!actualDependentBeans.isEmpty()) {
 						throw new BeanCurrentlyInCreationException(beanName,
 								"Bean with name '" + beanName + "' has been injected into other beans [" +
@@ -605,6 +655,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Register bean as disposable.
 		try {
+			//7.根据scope注册bean
 			registerDisposableBeanIfNecessary(beanName, bean, mbd);
 		}
 		catch (BeanDefinitionValidationException ex) {
