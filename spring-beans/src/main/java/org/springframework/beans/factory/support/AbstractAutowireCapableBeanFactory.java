@@ -412,7 +412,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 		return result;
 	}
-
+	/**
+	 * 在讲解从缓存中获取单例bean的时候就提到过，
+	 * Spring中的规则是在bean的初始化后尽可能保证将注册的后处理器postProcessAfterInitialization方法应用到该bean中。
+	 * 因为如果返回的bean不为空，那么便不会再次经历普通bean的创建过程，
+	 * 所以只能在这里应用后处理器的postProcessAfterINitialization方法
+	 * 
+	 */
 	@Override
 	public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
 			throws BeansException {
@@ -985,6 +991,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					//TODO:5.5.2.1.实例化前的后处理器应用
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
 					if (bean != null) {
+						//TODO:5.5.2.2.实例化后的后处理器应用
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
 					}
 				}
