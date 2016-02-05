@@ -482,7 +482,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		try {
 			//给BeanPostProcessors一个机会来返回代理来替代真正的实例
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
+			//TODO:5.5.2.实例化的前置处理
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
+			//当经过前置处理后返回的结果如果不为空，那么会直接略过后续的Bean的创建而直接返回结果。
+			//这一特性虽然很容易被忽略，但是却起着至关重要的作用，我们熟知的AOP功能就是基于这里的判断的。
 			if (bean != null) {
 				return bean;
 			}
@@ -961,9 +964,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param beanName the name of the bean
 	 * @param mbd the bean definition for the bean
 	 * @return the shortcut-determined bean instance, or {@code null} if none
+	 * 
+	 * 此方法中最吸引我们的无疑是两个方法applyBeanPostProcessorsBeforeInstanitation
+	 * 以及applyBeanPostProcessersAfterInitialization。
+	 * 
+	 * 两个方法实现的非常简单，
+	 * 无非是对后处理器中所有InstantiationAwareBeanPostProcessor类型的后处理器进行
+	 * postProcessBeforeInistantiation方法和BeanPostProcessor的postProcesssAfterInitialization方法的调用
+	 * 
 	 */
 	protected Object resolveBeforeInstantiation(String beanName, RootBeanDefinition mbd) {
 		Object bean = null;
+		//如果尚未被解析
 		if (!Boolean.FALSE.equals(mbd.beforeInstantiationResolved)) {
 			// Make sure bean class is actually resolved at this point.
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
