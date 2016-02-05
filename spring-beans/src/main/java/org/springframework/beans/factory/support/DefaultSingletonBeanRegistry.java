@@ -208,10 +208,10 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * 解释：
 	 * singletonObjects:用于保存beanName和创建bean实例之间的关系，
 	 * 		bean name->bean instance
-	 * singletonFactories:用于保存beanName和创建bean的工厂直接的关系，
+	 * singletonFactories:用于保存beanName和创建bean的工厂之间的关系，
 	 * 		bean name -> object factory
 	 * earlySingletonObjects:也是保存beanName和创建bean实例之间的关系，与singletonObjects的不同之处在于，
-	 *  	当一个单例bean被放倒这里面后，那么当bean还在创建过程中，就可以通过getBean方法获取到了，其目的是用来检测循环依赖引用
+	 *  	当一个单例bean被放到这里面后，那么当bean还在创建过程中，就可以通过getBean方法获取到了，其目的是用来检测循环依赖引用
 	 *  registeredSingletons:用来保存当前所有已注册的bean。
 	 */
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
