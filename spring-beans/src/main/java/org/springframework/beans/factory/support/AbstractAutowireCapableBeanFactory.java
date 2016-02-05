@@ -965,7 +965,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param mbd the bean definition for the bean
 	 * @return the shortcut-determined bean instance, or {@code null} if none
 	 * 
-	 * 此方法中最吸引我们的无疑是两个方法applyBeanPostProcessorsBeforeInstanitation
+	 * 此方法中最吸引我们的无疑是两个方法：
+	 * applyBeanPostProcessorsBeforeInstanitation
 	 * 以及applyBeanPostProcessersAfterInitialization。
 	 * 
 	 * 两个方法实现的非常简单，
@@ -981,6 +982,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 				Class<?> targetType = determineTargetType(beanName, mbd);
 				if (targetType != null) {
+					//TODO:5.5.2.1.实例化前的后处理器应用
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
 					if (bean != null) {
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
@@ -1003,6 +1005,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @return the bean object to use instead of a default instance of the target bean, or {@code null}
 	 * @throws BeansException if any post-processing failed
 	 * @see InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
+	 * 
+	 * bean的实例化前调用，也就是将AbstractBeanDefinition转换为BeanWrapper前的处理。
+	 * 给子类一个修改BeanDefinition的机会，也就是说当程序经过这个方法后，bean可能已经不是我们认为的bean了，
+	 * 而是或许成为了一个经过处理的代理bean，可能是通过cglib生成的，也可能是通过其它技术生成的。
+	 * 
 	 */
 	protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName)
 			throws BeansException {
