@@ -441,6 +441,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * Central method of this class: creates a bean instance,
 	 * populates the bean instance, applies post-processors, etc.
 	 * @see #doCreateBean
+	 * 
+	 * 1.根据设置的class属性或者根据className来解析Class
+	 * 2.对override属性进行标记及验证
+	 * 		其实在spring配置中，根本没有override－method这样的配置，
+	 * 		但是前面提到过由lookup-methodh和replace-method的，
+	 * 		而这两个配置的加载其实就是将配置统一存放在BeanDefinition中的methodOverrides属性里，
+	 * 		而这个函数的操作其实也就是针对与这两个配置的。
+	 * 3.应用初始化前的后处理器，解析指定bean是否存在初始化前的短路操作
+	 * 4.创建bean
 	 */
 	@Override
 	protected Object createBean(String beanName, RootBeanDefinition mbd, Object[] args) throws BeanCreationException {
@@ -452,6 +461,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Make sure bean class is actually resolved at this point, and
 		// clone the bean definition in case of a dynamically resolved Class
 		// which cannot be stored in the shared merged bean definition.
+		//锁定class，根据设置的class属性或者根据className来解析Class
 		Class<?> resolvedClass = resolveBeanClass(mbd, beanName);
 		if (resolvedClass != null && !mbd.hasBeanClass() && mbd.getBeanClassName() != null) {
 			mbdToUse = new RootBeanDefinition(mbd);
@@ -460,6 +470,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		// Prepare method overrides.
 		try {
+			//验证及准备覆盖的方法
 			mbdToUse.prepareMethodOverrides();
 		}
 		catch (BeanDefinitionValidationException ex) {
@@ -468,6 +479,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
+			//给BeanPostProcessors一个机会来返回代理来替代真正的实例
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {

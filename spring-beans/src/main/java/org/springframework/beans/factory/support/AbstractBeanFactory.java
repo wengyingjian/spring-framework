@@ -378,6 +378,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						@Override
 						public Object getObject() throws BeansException {
 							try {
+								//TODO:5.5.准备创建bean-->AbstractAutowireCapableBeanFactory#createBean
 								return createBean(beanName, mbd, args);
 							}
 							catch (BeansException ex) {
