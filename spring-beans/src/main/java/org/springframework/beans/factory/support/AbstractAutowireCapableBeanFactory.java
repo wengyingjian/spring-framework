@@ -399,6 +399,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return initializeBean(beanName, existingBean, null);
 	}
 
+	/**
+	 * beanPostProcessor相信大家都不陌生，这事Sping中开放式架构中一个必不可少的亮点，
+	 * 给用户充足的权限去更改或者扩展Spring，而除了BeanPostProcessor外还有很多其他的PostProcessor，
+	 * 当然大部分都是以此为基础，继承自BeanPostProcessor。
+	 * BeanPostProcessor的使用位置就是在这里，在调用客户自定义初始化方法前以及调用自定义初始化方法后分别调用BeanPostProcessor的
+	 * postProcessBeforeInitialzation和postProcessAfterInitialization方法，使用户可以根据自己的业务需求进行相应的处理。
+	 */
 	@Override
 	public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
 			throws BeansException {
@@ -1796,6 +1803,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
 			//应用后处理器
+			//TODO:5.7.3.2.处理器的应用
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
