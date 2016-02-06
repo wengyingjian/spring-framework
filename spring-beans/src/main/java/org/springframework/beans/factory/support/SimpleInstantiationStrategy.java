@@ -54,7 +54,13 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 		return currentlyInvokedFactoryMethod.get();
 	}
 
-
+	/**
+	 * 在程序中，首先判断如果beanDefinitio.getMethodOverrides()为空也就是用户有没有用replace或者lookup方法，
+	 * 那么直接使用反射的方式，简单快捷，
+	 * 但是如果使用了这两个特性，在直接使用反射的方式就不妥了，因为需要将这两个配置提供的功能切入进去，
+	 * 所以就必须要用动态代理的方式将包含两个特性所对应的逻辑的拦截器增强器设置进去，
+	 * 这样才可以保证在调用方法的时候会被对于的拦截器拦截，返回值为包含拦截器的代理实例
+	 */
 	@Override
 	public Object instantiate(RootBeanDefinition bd, String beanName, BeanFactory owner) {
 		// Don't override the class with CGLIB if no overrides.
