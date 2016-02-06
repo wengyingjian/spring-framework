@@ -1206,6 +1206,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				beanInstance = AccessController.doPrivileged(new PrivilegedAction<Object>() {
 					@Override
 					public Object run() {
+						//TODO:5.7.1.3.实例化策略-->SimpleInstantiationStrategy#instantiate
 						return getInstantiationStrategy().instantiate(mbd, beanName, parent);
 					}
 				}, getAccessControlContext());
