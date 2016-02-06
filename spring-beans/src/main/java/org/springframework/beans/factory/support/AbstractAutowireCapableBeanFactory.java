@@ -1809,6 +1809,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		try {
 			//激活用户自定义的init方法
+			//TODO:5.7.3.3.激活自定义的init方法
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
 		catch (Throwable ex) {
@@ -1860,10 +1861,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * (can also be {@code null}, if given an existing bean instance)
 	 * @throws Throwable if thrown by init methods or by the invocation process
 	 * @see #invokeCustomInitMethod
+	 * 
+	 * 客户定制的初始化方法除了我们熟知的使用配置init－method外，还有使自定义的bean实现InitializingBean接口，
+	 * 并在afterPropertiesSet中实现自己的初始化业务逻辑
+	 * init－method与afterPropertiesSet都是在初始化bean时执行，执行顺序是afterPropertiesSet先执行，而init－method后执行
+	 * 
+	 * 在invokeInitMethods方法中就实现了这两个步骤的初始化法方法调用。
 	 */
 	protected void invokeInitMethods(String beanName, final Object bean, RootBeanDefinition mbd)
 			throws Throwable {
 
+		//首先会检查是否是InitializingBean，如果是的话需要调用afterPropertiesSet方法
 		boolean isInitializingBean = (bean instanceof InitializingBean);
 		if (isInitializingBean && (mbd == null || !mbd.isExternallyManagedInitMethod("afterPropertiesSet"))) {
 			if (logger.isDebugEnabled()) {
@@ -1874,6 +1882,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
 						@Override
 						public Object run() throws Exception {
+							// 属性初始化后的处理
 							((InitializingBean) bean).afterPropertiesSet();
 							return null;
 						}
@@ -1892,6 +1901,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			String initMethodName = mbd.getInitMethodName();
 			if (initMethodName != null && !(isInitializingBean && "afterPropertiesSet".equals(initMethodName)) &&
 					!mbd.isExternallyManagedInitMethod(initMethodName)) {
+				//调用自定义初始化方法
 				invokeCustomInitMethod(beanName, bean, mbd);
 			}
 		}
