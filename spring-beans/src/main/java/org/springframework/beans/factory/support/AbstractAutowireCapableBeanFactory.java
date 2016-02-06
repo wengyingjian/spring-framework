@@ -582,6 +582,48 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// even when triggered by lifecycle interfaces like BeanFactoryAware.
 		/**
 		 * 是否需要提早曝光：单例&循序循环依赖&当前bean正在创建中，检测循环依赖
+		 * 5.7.2.记录创建bean的ObjectFactory
+		 * 
+		 * －earlySingletonExposure:从字面上的意思理解就是提早曝光的单例，我们暂不定义它的学名叫什么，我们感兴趣的是有哪些条件影响这个值
+		 * －mbd.isSingleton()：没有太多可以解释，此RootBeanDefinition代表的是否是单例
+		 * -this.allowCircularReferences:是否允许循环依赖，很抱歉，并有找到在配置文件中如何配置，
+		 * 	但是在AbstractRefreshableApplicationContext中提供了设置函数，
+		 * 	可以通过硬编码的方式进行设置或者可以通过自定义命名空间进行配置，其中硬编码的方式代码如下：
+		 * 	ClassPathXmlApplicationContext bf=new ClassPathXmlApplicationContext("aspectTest.xml");
+		 * 	bf.setAllowBeanDefinitionOverriding(false);
+		 * -isSingletonCurrentlyInCreation(beanName):该便是否在创建中。
+		 * 	在Spring中，会有一个专门的属性默认为DefaultSingletonBeanRegistry的singletonsCurrentlyInCreation来记录bean的加载状态，
+		 * 	在bean开始创建前会将beanName记录在属性中，在bean创建结束后会将beanName从属性中移除。
+		 * 	那么我们跟随代码一路走来可是对这个属性的记录并没有但是印象，这个状态中在哪里记录的呢？
+		 *  不同的scope的记录位置是不一样的，我们以singleton为例，在singleton下记录属性的函数是在DefaultSingletonBeanRegistry类的
+		 *  public Object getSingleton(String beanName,ObjectFactory singletonFactory)函数的
+		 *  beforeSingleonCreation(beanName)和afterSingletonCreation(beanName)中，
+		 *  在这两段函数中分别this.singletonCurrentInCreation.add(beanName)与
+		 *  this.singletonsCurrentlyInCreation.remove(beanName)来进行状态的记录与移除
+		 *  
+		 *  
+		 *  通过以上分析我们了解变量earylySingletonExposure是否是单例、是否允许循环依赖、是否对应的bean正在创建的条件的综合。
+		 *  当这3个条件都满足时会执行addSingletonFactory操作，那么加入SingletonFactory的作用是什么呢？又是在什么时候调用的呢？
+		 *  beanA、beanB循环依赖的问题：
+		 *  
+		 *  创建beanA -->开始创建bean（记录beanNameA）
+		 *  		 	|
+		 *  			addSingletonFactory
+		 *  			|
+		 *  			populateBean(填充属性)	---->	开始创建bean(记录beanNameB)
+		 *  			|								|
+		 *  			结束创建bean(移除beanNameA) 		addSingletonFactory
+		 *  											|
+		 *  											populateBean(填充属性)	-->getBeanA
+		 *  											|
+		 *  											结束创建bean（移除beanNameB）
+		 *  
+		 *  
+		 *  上图展示了创建beanA的流程，图中我们可以看到，在创建A的时候首先会记录类A所对应的beanName，并将beanA的创建工厂加入缓存中，
+		 *  而在对A的属性填充也就是调用populate方法的时候又回再一次的对B进行递归创建。
+		 *  同样的，因为在B中同样存在A属性，因此在实例化B的popluate方法中又会再次地初始化B，也就是图形的最后，调用getBeanA。
+		 *  关键是在这里，在这个函数中并不是直接去实例化A，而是先去检测缓存中是否有已经创建好的对应的bean，或是是否已经创建好的ObjectFactory，
+		 *  而此时对于A的ObjectFactory我们早已经创建，所以便不会再去向后执行，而是直接调用ObjectFactory去创建A。
 		 */
 		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
 				isSingletonCurrentlyInCreation(beanName));
@@ -596,6 +638,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				public Object getObject() throws BeansException {
 					//对bean再一次依赖引用，主要应用SmartInstantiationAwareBeanPostProcessor
 					//其中我们熟知的AOP就是在这里将advice动态注入bean中，若没有则直接返回bean，不做任何处理
+					//TODO:5.7.2.记录创建bean的ObjectFactory
 					return getEarlyBeanReference(beanName, mbd, bean);
 				}
 			});
@@ -889,6 +932,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param mbd the merged bean definition for the bean
 	 * @param bean the raw bean instance
 	 * @return the object to expose as bean reference
+	 * 
+	 * 在getEarlyBeanReference函数中并没有太多的逻辑处理，或者说除了后处理器的调用外没有别的处理工作，
+	 * 根据以上分析，基本可以理清spring处理循环依赖的方法
+	 * 在B中创建依赖A时通过ObjectFactory提供的实例化方法来判断A中的属性填充，使B中持有A仅仅是刚刚初始化并没有填充任何属性的A，
+	 * 而这正初始化A的步骤还是在最开始创建A的时候进行的，但是因为A与B中的A所表示的属性地址是一样的，
+	 * 所以在A中创建好的属性填充自然可以通过B中的A获取，这样就解决了循环依赖的问题。
 	 */
 	protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, Object bean) {
 		Object exposedObject = bean;
