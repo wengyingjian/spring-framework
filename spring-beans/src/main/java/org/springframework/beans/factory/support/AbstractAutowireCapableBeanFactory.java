@@ -1782,6 +1782,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			AccessController.doPrivileged(new PrivilegedAction<Object>() {
 				@Override
 				public Object run() {
+					//TODO:5.7.3.1.激活Aware方法
 					invokeAwareMethods(beanName, bean);
 					return null;
 				}
@@ -1815,6 +1816,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return wrappedBean;
 	}
 
+	/**
+	 * Aware的使用：
+	 * Spring提供了一些Aware相关接口，比如BeanFactoryAware、ApplicationContextAware、ResourceLoaderAware、ServletContextAware等，
+	 * 实现这些Aware接口的bean在被初始化之后，可以取得一些相对应的资源，
+	 * 例如实现BeanFactoryAware的bean在初始化后，Spring容器将会注入BeanFactory的实例，
+	 * 而实现ApplicationContextAware的bean，在初始化后，将会被注入ApplicationContext的实例等。
+	 * 
+	 * 
+	 * @param beanName
+	 * @param bean
+	 */
 	private void invokeAwareMethods(final String beanName, final Object bean) {
 		if (bean instanceof Aware) {
 			if (bean instanceof BeanNameAware) {
