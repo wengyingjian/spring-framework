@@ -652,6 +652,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			populateBean(beanName, mbd, instanceWrapper);
 			if (exposedObject != null) {
 				//调用初始化方法，比如init-method
+				//TODO:5.7.4.初始化bean
 				exposedObject = initializeBean(beanName, exposedObject, mbd);
 			}
 		}
@@ -1770,6 +1771,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #invokeInitMethods
 	 * @see #applyBeanPostProcessorsAfterInitialization
 	 * 
+	 * 在bean配置时bean中有一个init-method属性，这个属性的作用是在bean实例化前调用init-method指定的方法来根据用户业务进行相应的实例化。
+	 * 我们现在就已经进入这个方法了，首先看以下这个方法的执行位置，SPring中程序已经执行过bean的实例化，
+	 * 并且进行了属性的扩充，而就在这事将会调用用户设定的初始化方法。
+	 * 
+	 * 虽说此函数的主要谜底是进行客户设定的初始化方法的调用，但是除此之外还有些其他必要的工作。
 	 */
 	protected Object initializeBean(final String beanName, final Object bean, RootBeanDefinition mbd) {
 		if (System.getSecurityManager() != null) {
@@ -1782,15 +1788,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}, getAccessControlContext());
 		}
 		else {
+			// 对特殊的bean处理：Aware、BeanClassLoaderAware、BeanFactoryAware
 			invokeAwareMethods(beanName, bean);
 		}
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
+			//应用后处理器
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
 		try {
+			//激活用户自定义的init方法
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
 		catch (Throwable ex) {
@@ -1800,6 +1809,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (mbd == null || !mbd.isSynthetic()) {
+			//后处理器的应用
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 		return wrappedBean;
