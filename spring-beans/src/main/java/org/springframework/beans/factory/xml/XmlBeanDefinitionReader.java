@@ -317,7 +317,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		if (logger.isInfoEnabled()) {
 			logger.info("Loading XML bean definitions from " + encodedResource.getResource());
 		}
-//将encodedResource放入到resourcesCurrentlyBeingLoaded这个set中
+		//将encodedResource放入到resourcesCurrentlyBeingLoaded这个set中
 		Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
 		if (currentResources == null) {
 			currentResources = new HashSet<EncodedResource>(4);
@@ -433,7 +433,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	protected Document doLoadDocument(InputSource inputSource, Resource resource) throws Exception {
 				//加载XML文件，并得到对应的Document
-		//---> DefaultDocumentReader.loadDocument();\实现的方法也都是比较通用的
+		//--->DefaultDocumentLoader#loadDocument();\实现的方法也都是比较通用的
 		return this.documentLoader.loadDocument(inputSource, 
 				//resolveEntity (String publicId,String systemId)
 				//for xsd : 
@@ -442,7 +442,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 				//for dtd : 
 				//		publicId: -//Spring///DTD BEAN 2.0//EN
 				//		systemId: http://www.Springframework.org/dtd/Spring-beans-2.0.dtd
-				getEntityResolver(), //获取解析器
+				getEntityResolver(), //获取解析器xsd or dtd
 				this.errorHandler,
 				getValidationModeForResource(resource),//获取对XMl文件的验证模式（查看内容中是否有"DOCTYPE"?dtd:xsd）
 				isNamespaceAware());
@@ -524,9 +524,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #loadBeanDefinitions
 	 * @see #setDocumentReaderClass
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
+	 * 
+	 * 1.实例化BeanDefinitionDocumentReader，使用DefaultBeanDefinitionDocumentReader
+	 * 2.记录注册bean的数量
+	 * 3.注册bean
+	 * 4.计算此次注册了多少个新的bean，并返回
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
-		//使用DefaultBeanDefinitionDocumentReader实例化BeanDefinitionDocumentReader
+		//使用 DefaultBeanDefinitionDocumentReader 实例化 BeanDefinitionDocumentReader
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
 		//在实例化BeanDefinitionReader时候会将BeanDefinitionRegistry传入，默认使用继承自DefaultListableBeanFactory的子类
 		int countBefore = getRegistry().getBeanDefinitionCount();
