@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+	<bean id="b1" class="com.wengyingjian.springframework.test.aliassamesname.Bean1" name="bean1"/>
+	<bean id="b2" class="com.wengyingjian.springframework.test.aliassamesname.Bean2" name="bean2"/>
+	<alias name="bean1" alias="bean2"/>
+	
+</beans>
